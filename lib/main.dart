@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '/constants/kColours.dart';
 import 'models/todo_item.dart';
 
 void main() {
@@ -80,18 +81,24 @@ class _MyHomePageState extends State<MyHomePage> {
           itemBuilder: (context, index) {
             return Dismissible(
               key: Key(todoList[index].id),
-              onDismissed: (direction) {
+              confirmDismiss: (direction) async {
+                //TODO: Add a showModal to ask the user to confirm if they want to remove the ToDoItem
                 if (direction == DismissDirection.endToStart) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
-                        "'${todoList[index].title}' removed.",
+                        "'${todoList[index].title}' item removed.",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 18),
                       ),
+                      backgroundColor: kColours.kRedClear,
                     ),
                   );
                   setState(() {
                     todoList.removeAt(index);
                   });
+                } else {
+                  return false;
                 }
               },
               child: ListTile(
