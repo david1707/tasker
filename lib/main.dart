@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'models/todo_item.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -9,12 +11,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
+    return const MaterialApp(
+      title: 'Tasker',
+      debugShowCheckedModeBanner: false,
+      home: MyHomePage(),
     );
   }
 }
@@ -27,12 +27,67 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<ToDoItem> todoList = [
+    ToDoItem(
+      id: '01',
+      title: 'Test',
+      body:
+          'Hahaha this is a test! But on this one, the text is a big longer to I can cut it :)',
+      isFinished: false,
+    ),
+    ToDoItem(
+      id: '02',
+      title: 'Another test',
+      body: 'Hahaha this is a test!',
+      isFinished: false,
+    ),
+    ToDoItem(
+      id: '03',
+      title: 'Eat all the lunchables',
+      body: 'Hahaha this is a test!',
+      isFinished: true,
+    ),
+    ToDoItem(
+      id: '04',
+      title: 'Yell',
+      body: 'Hahaha this is a test!',
+      isFinished: true,
+    ),
+    ToDoItem(
+      id: '05',
+      title: 'Read @dril tweets',
+      body: 'Hahaha this is a test!',
+      isFinished: false,
+    ),
+    ToDoItem(
+      id: '06',
+      title: 'Drive thru the Mc Donalds',
+      body: 'Hahaha this is a test!',
+      isFinished: true,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Center(
-        child: Text('hola'),
+      body: Container(
+        alignment: Alignment.center,
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(
+                todoList[index].title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                ),
+              ),
+              subtitle: Text('${todoList[index].body.characters.take(40)} ...'),
+            );
+          },
+          itemCount: todoList.length,
+        ),
       ),
     );
   }
