@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Tasker',
       debugShowCheckedModeBanner: false,
+      color: Colors.teal,
       home: MyHomePage(),
     );
   }
@@ -70,20 +71,47 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.teal,
+      ),
       body: Container(
         alignment: Alignment.center,
         child: ListView.builder(
           itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(
-                todoList[index].title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
+            return Dismissible(
+              key: Key(todoList[index].id),
+              onDismissed: (direction) {
+                if (direction == DismissDirection.endToStart) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        "'${todoList[index].title}' removed.",
+                      ),
+                    ),
+                  );
+                  setState(() {
+                    todoList.removeAt(index);
+                  });
+                }
+              },
+              child: ListTile(
+                title: Text(
+                  todoList[index].title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                  ),
+                ),
+                subtitle: todoList[index].body.length >= 30
+                    ? Text('${todoList[index].body.characters.take(30)} ...')
+                    : Text(todoList[index].body),
+                leading: Icon(
+                  todoList[index].isFinished
+                      ? Icons.check_box
+                      : Icons.check_box_outline_blank,
+                  color: Colors.teal,
                 ),
               ),
-              subtitle: Text('${todoList[index].body.characters.take(40)} ...'),
             );
           },
           itemCount: todoList.length,
