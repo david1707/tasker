@@ -69,6 +69,12 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
   ];
 
+  void _toogleFinished(int index) {
+    setState(() {
+      todoList[index].isFinished = !todoList[index].isFinished;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,11 +118,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 subtitle: todoList[index].body.length >= 30
                     ? Text('${todoList[index].body.characters.take(30)} ...')
                     : Text(todoList[index].body),
-                leading: Icon(
-                  todoList[index].isFinished
-                      ? Icons.check_box
-                      : Icons.check_box_outline_blank,
-                  color: Colors.teal,
+                leading: InkWell(
+                  onTap: () => _toogleFinished(index),
+                  child: Icon(
+                    todoList[index].isFinished
+                        ? Icons.check_box
+                        : Icons.check_box_outline_blank,
+                    color: Colors.teal,
+                  ),
                 ),
               ),
             );

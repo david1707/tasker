@@ -2,7 +2,7 @@ class ToDoItem {
   final String id;
   final String title;
   final String body;
-  final bool isFinished;
+  bool isFinished;
 
   ToDoItem({
     required this.id,
