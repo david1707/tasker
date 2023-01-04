@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '/constants/kColours.dart';
-import 'models/todo_item.dart';
+import '/models/todo_item.dart';
+import '/widgets/todo_listtile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -69,10 +70,37 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
   ];
 
-  void _toogleFinished(int index) {
+  void _toogleFinished(String id) {
+    ToDoItem todo = todoList.firstWhere((item) => item.id == id);
     setState(() {
-      todoList[index].isFinished = !todoList[index].isFinished;
+      todo.isFinished = !todo.isFinished;
     });
+  }
+
+  void _removeItemFromList(int index) {
+    setState(() {
+      todoList.removeAt(index);
+    });
+  }
+
+  Future<bool> _confirmDismiss(direction, index) {
+    //TODO: Add a showModal to ask the user to confirm if they want to remove the ToDoItem
+    if (direction == DismissDirection.endToStart) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "'${todoList[index].title}' item removed.",
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 18),
+          ),
+          backgroundColor: kColours.kRedClear,
+        ),
+      );
+      _removeItemFromList(index);
+      return Future.value(true);
+    } else {
+      return Future.value(false);
+    }
   }
 
   @override
@@ -87,46 +115,10 @@ class _MyHomePageState extends State<MyHomePage> {
           itemBuilder: (context, index) {
             return Dismissible(
               key: Key(todoList[index].id),
-              confirmDismiss: (direction) async {
-                //TODO: Add a showModal to ask the user to confirm if they want to remove the ToDoItem
-                if (direction == DismissDirection.endToStart) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        "'${todoList[index].title}' item removed.",
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 18),
-                      ),
-                      backgroundColor: kColours.kRedClear,
-                    ),
-                  );
-                  setState(() {
-                    todoList.removeAt(index);
-                  });
-                } else {
-                  return false;
-                }
-              },
-              child: ListTile(
-                title: Text(
-                  todoList[index].title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                  ),
-                ),
-                subtitle: todoList[index].body.length >= 30
-                    ? Text('${todoList[index].body.characters.take(30)} ...')
-                    : Text(todoList[index].body),
-                leading: InkWell(
-                  onTap: () => _toogleFinished(index),
-                  child: Icon(
-                    todoList[index].isFinished
-                        ? Icons.check_box
-                        : Icons.check_box_outline_blank,
-                    color: Colors.teal,
-                  ),
-                ),
+              confirmDismiss: (direction) => _confirmDismiss(direction, index),
+              child: ToDoListTile(
+                todo: todoList[index],
+                toogleFinished: _toogleFinished,
               ),
             );
           },
