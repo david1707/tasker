@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '/constants/colours.dart';
 import '/models/todo_item.dart';
 import '/widgets/todo_listtile.dart';
+import '/widgets/custom_fab.dart';
 
 void main() {
   runApp(const MyApp());
@@ -125,6 +126,8 @@ class _MyHomePageState extends State<MyHomePage> {
           itemCount: todoList.length,
         ),
       ),
+      floatingActionButton: Custom_FAB(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
