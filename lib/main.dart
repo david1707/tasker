@@ -84,6 +84,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _addNewTodo(ToDoItem todo) {
+    setState(() {
+      todoList.insert(0, todo);
+    });
+  }
+
   Future<bool> _confirmDismiss(direction, index) {
     //TODO: Add a showModal to ask the user to confirm if they want to remove the ToDoItem
     if (direction == DismissDirection.endToStart) {
@@ -126,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
           itemCount: todoList.length,
         ),
       ),
-      floatingActionButton: Custom_FAB(),
+      floatingActionButton: Custom_FAB(addNewToDo: _addNewTodo),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
