@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '/constants/colours.dart';
 import '/models/todo_item.dart';
-import '/widgets/todo_listtile.dart';
+import 'widgets/todoListTile.dart';
 import '/widgets/custom_fab.dart';
 
 void main() {
