@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '/constants/kColours.dart';
+import '/constants/colours.dart';
 import '/models/todo_item.dart';
 import '/widgets/todo_listtile.dart';
 
@@ -13,11 +13,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Tasker',
       debugShowCheckedModeBanner: false,
-      color: Colors.teal,
-      home: MyHomePage(),
+      color: Colours.kTeal,
+      home: const MyHomePage(),
     );
   }
 }
@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 18),
           ),
-          backgroundColor: kColours.kRedClear,
+          backgroundColor: Colours.kRedClear,
         ),
       );
       _removeItemFromList(index);
@@ -107,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.teal,
+        backgroundColor: Colours.kTeal,
       ),
       body: Container(
         alignment: Alignment.center,

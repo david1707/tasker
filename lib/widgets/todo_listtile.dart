@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../constants/colours.dart';
 import '../models/todo_item.dart';
 
 class ToDoListTile extends StatelessWidget {
@@ -28,7 +29,7 @@ class ToDoListTile extends StatelessWidget {
         onTap: () => toogleFinished(todo.id),
         child: Icon(
           todo.isFinished ? Icons.check_box : Icons.check_box_outline_blank,
-          color: Colors.teal,
+          color: Colours.kTeal,
         ),
       ),
     );
