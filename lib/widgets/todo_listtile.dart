@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../constants/colours.dart';
 import '../models/todo_item.dart';
-import '../widgets/showModalListTile.dart';
-import '../widgets/paddedRowButtons.dart';
+import 'showmodal_listtile.dart';
+import 'padded_row_buttons.dart';
 
 class ToDoListTile extends StatelessWidget {
-  final ToDoItem todo;
+  final TodoItem todo;
   final Function toogleFinished;
   const ToDoListTile({
     Key? key,
@@ -23,7 +23,7 @@ class ToDoListTile extends StatelessWidget {
           builder: (context) {
             return Wrap(
               children: [
-                showModalListTile(
+                ShowModalListTile(
                     icon: Icons.preview_outlined,
                     text: "View '${todo.title}'",
                     todo: todo,
@@ -75,7 +75,7 @@ class ToDoListTile extends StatelessWidget {
                         },
                       );
                     }),
-                showModalListTile(
+                ShowModalListTile(
                   icon: Icons.edit,
                   text: "Edit '${todo.title}'",
                   todo: todo,
@@ -84,7 +84,7 @@ class ToDoListTile extends StatelessWidget {
                       context: context,
                       builder: (BuildContext context) {
                         //TODO Add Navigation to another page to edit this ToDo
-                        return Text('');
+                        return const Text('');
                       },
                     );
                   },

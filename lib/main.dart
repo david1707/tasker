@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '/constants/colours.dart';
-import '/models/todo_item.dart';
-import 'widgets/todoListTile.dart';
-import '/widgets/custom_fab.dart';
+import 'models/todo_item.dart';
+import 'widgets/todo_listtile.dart';
+import 'widgets/custom_fab.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,39 +31,39 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<ToDoItem> todoList = [
-    ToDoItem(
+  List<TodoItem> todoList = [
+    TodoItem(
       id: '01',
       title: 'Test',
       body:
           'Hahaha this is a test! But on this one, the text is a big longer to I can cut it :)',
       isFinished: false,
     ),
-    ToDoItem(
+    TodoItem(
       id: '02',
       title: 'Another test',
       body: 'Hahaha this is a test!',
       isFinished: false,
     ),
-    ToDoItem(
+    TodoItem(
       id: '03',
       title: 'Eat all the lunchables',
       body: 'Hahaha this is a test!',
       isFinished: true,
     ),
-    ToDoItem(
+    TodoItem(
       id: '04',
       title: 'Yell',
       body: 'Hahaha this is a test!',
       isFinished: true,
     ),
-    ToDoItem(
+    TodoItem(
       id: '05',
       title: 'Read @dril tweets',
       body: 'Hahaha this is a test!',
       isFinished: false,
     ),
-    ToDoItem(
+    TodoItem(
       id: '06',
       title: 'Drive thru the Mc Donalds',
       body: 'Hahaha this is a test!',
@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   void _toogleFinished(String id) {
-    ToDoItem todo = todoList.firstWhere((item) => item.id == id);
+    TodoItem todo = todoList.firstWhere((item) => item.id == id);
     setState(() {
       todo.isFinished = !todo.isFinished;
     });
@@ -84,14 +84,14 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _addNewTodo(ToDoItem todo) {
+  void _addNewTodo(TodoItem todo) {
     setState(() {
       todoList.insert(0, todo);
     });
   }
 
   Future<bool> _confirmDismiss(direction, index) {
-    //TODO: Add a showModal to ask the user to confirm if they want to remove the ToDoItem
+    //TODO: Add a showModal to ask the user to confirm if they want to remove the TodoItem
     if (direction == DismissDirection.endToStart) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -132,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
           itemCount: todoList.length,
         ),
       ),
-      floatingActionButton: Custom_FAB(addNewToDo: _addNewTodo),
+      floatingActionButton: CustomFAB(addNewToDo: _addNewTodo),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

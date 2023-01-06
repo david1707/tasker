@@ -3,15 +3,15 @@ import 'package:tasker/models/todo_item.dart';
 
 import '../constants/colours.dart';
 
-class Custom_FAB extends StatefulWidget {
+class CustomFAB extends StatefulWidget {
   final Function addNewToDo;
-  const Custom_FAB({Key? key, required this.addNewToDo}) : super(key: key);
+  const CustomFAB({Key? key, required this.addNewToDo}) : super(key: key);
 
   @override
-  State<Custom_FAB> createState() => _Custom_FABState();
+  State<CustomFAB> createState() => CustomFABState();
 }
 
-class _Custom_FABState extends State<Custom_FAB> {
+class CustomFABState extends State<CustomFAB> {
   final _formKey = GlobalKey<FormState>();
   String _title = '';
   String _body = '';
@@ -94,7 +94,7 @@ class _Custom_FABState extends State<Custom_FAB> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState?.save();
-                      ToDoItem todo = ToDoItem(
+                      TodoItem todo = TodoItem(
                           id: DateTime.now().toString(),
                           title: _title,
                           body: _body,

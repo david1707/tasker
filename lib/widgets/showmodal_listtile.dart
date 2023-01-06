@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:tasker/models/todo_item.dart';
 
-class showModalListTile extends StatelessWidget {
+class ShowModalListTile extends StatelessWidget {
   final IconData icon;
   final String text;
-  final ToDoItem todo;
+  final TodoItem todo;
   final Function function;
 
-  const showModalListTile(
+  const ShowModalListTile(
       {Key? key,
       required this.icon,
       required this.text,

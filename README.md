@@ -17,7 +17,7 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Future features
 
-- Create ToDo
+- ~~Create ToDo~~
 - Modify ToDos
 - Provider.of<TodosProvider>
 - Set priority to each ToDo
