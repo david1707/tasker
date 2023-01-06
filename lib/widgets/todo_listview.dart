@@ -7,12 +7,12 @@ import 'todo_listtile.dart';
 class TodoListView extends StatefulWidget {
   final List<TodoItem> todoList;
   final Function toogleFinished;
-  final Function confirmDismiss;
+  final Function removeItemFromList;
   const TodoListView({
     super.key,
     required this.todoList,
     required this.toogleFinished,
-    required this.confirmDismiss,
+    required this.removeItemFromList,
   });
 
   @override
@@ -58,7 +58,7 @@ class _MyWidgetState extends State<TodoListView> {
                         text: 'Delete',
                         function: () {
                           Navigator.of(context).pop(true);
-                          widget.confirmDismiss();
+                          widget.removeItemFromList(index);
                         },
                       ),
                     ],

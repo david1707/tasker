@@ -35,38 +35,38 @@ class _MyHomePageState extends State<MyHomePage> {
     TodoItem(
       id: '01',
       title: 'Test',
-      body:
-          'Hahaha this is a test! But on this one, the text is a big longer to I can cut it :)',
+      body: 'This is a test!',
       isFinished: false,
     ),
     TodoItem(
       id: '02',
       title: 'Another test',
-      body: 'Hahaha this is a test!',
+      body:
+          'Yep, another test. But the text on this one is longer so we can see how we limit characters being ',
       isFinished: false,
     ),
     TodoItem(
       id: '03',
       title: 'Eat all the lunchables',
-      body: 'Hahaha this is a test!',
+      body: 'This is a test!',
       isFinished: true,
     ),
     TodoItem(
       id: '04',
       title: 'Yell',
-      body: 'Hahaha this is a test!',
+      body: 'This is a test!',
       isFinished: true,
     ),
     TodoItem(
       id: '05',
       title: 'Read @dril tweets',
-      body: 'Hahaha this is a test!',
+      body: 'This is a test!',
       isFinished: false,
     ),
     TodoItem(
       id: '06',
       title: 'Drive thru the Mc Donalds',
-      body: 'Hahaha this is a test!',
+      body: 'This is a test!',
       isFinished: true,
     ),
   ];
@@ -79,6 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _removeItemFromList(int index) {
+    print(index);
     setState(() {
       todoList.removeAt(index);
     });
@@ -90,38 +91,19 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future<bool> _confirmDismiss(direction, index) {
-    //TODO: Add a showModal to ask the user to confirm if they want to remove the TodoItem
-    if (direction == DismissDirection.endToStart) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            "'${todoList[index].title}' item removed.",
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 18),
-          ),
-          backgroundColor: Colours.kRedClear,
-        ),
-      );
-      _removeItemFromList(index);
-      return Future.value(true);
-    } else {
-      return Future.value(false);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colours.kTeal,
+        title: Text("Total items: ${todoList.length}"),
       ),
       body: Container(
           alignment: Alignment.center,
           child: TodoListView(
             todoList: todoList,
             toogleFinished: _toogleFinished,
-            confirmDismiss: _confirmDismiss,
+            removeItemFromList: _removeItemFromList,
           )),
       floatingActionButton: CustomFAB(addNewToDo: _addNewTodo),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
