@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tasker/widgets/todo_listview.dart';
 
 import '/constants/colours.dart';
 import 'models/todo_item.dart';
-import 'widgets/todo_listtile.dart';
 import 'widgets/custom_fab.dart';
 
 void main() {
@@ -117,21 +117,12 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colours.kTeal,
       ),
       body: Container(
-        alignment: Alignment.center,
-        child: ListView.builder(
-          itemBuilder: (context, index) {
-            return Dismissible(
-              key: Key(todoList[index].id),
-              confirmDismiss: (direction) => _confirmDismiss(direction, index),
-              child: ToDoListTile(
-                todo: todoList[index],
-                toogleFinished: _toogleFinished,
-              ),
-            );
-          },
-          itemCount: todoList.length,
-        ),
-      ),
+          alignment: Alignment.center,
+          child: TodoListView(
+            todoList: todoList,
+            toogleFinished: _toogleFinished,
+            confirmDismiss: _confirmDismiss,
+          )),
       floatingActionButton: CustomFAB(addNewToDo: _addNewTodo),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
