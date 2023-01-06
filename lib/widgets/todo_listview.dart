@@ -28,36 +28,44 @@ class _MyWidgetState extends State<TodoListView> {
       itemBuilder: (context, index) {
         return Dismissible(
           key: Key(todoList[index].id),
+          direction: DismissDirection.endToStart,
+          background: Container(
+            alignment: AlignmentDirectional.centerEnd,
+            color: Colors.red,
+            child: const Padding(
+              padding: EdgeInsets.only(right: 25),
+              child: Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+            ),
+          ),
           confirmDismiss: (direction) {
-            if (direction == DismissDirection.endToStart) {
-              return showDialog(
-                context: context,
-                builder: (_) => AlertDialog(
-                  title: const Text('Delete todo'),
-                  content: const Text('Confirm delete this todo'),
-                  actions: [
-                    Row(
-                      children: [
-                        ExpandedButton(
-                          text: 'Close',
-                          function: () => Navigator.of(context).pop(false),
-                        ),
-                        const SizedBox(width: 40),
-                        ExpandedButton(
-                          text: 'Delete',
-                          function: () {
-                            Navigator.of(context).pop(true);
-                            widget.confirmDismiss();
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              return Future.value(false);
-            }
+            return showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                title: const Text('Delete todo'),
+                content: const Text('Confirm delete this todo'),
+                actions: [
+                  Row(
+                    children: [
+                      ExpandedButton(
+                        text: 'Close',
+                        function: () => Navigator.of(context).pop(false),
+                      ),
+                      const SizedBox(width: 40),
+                      ExpandedButton(
+                        text: 'Delete',
+                        function: () {
+                          Navigator.of(context).pop(true);
+                          widget.confirmDismiss();
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
           },
           child: ToDoListTile(
             todo: todoList[index],
