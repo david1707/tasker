@@ -79,6 +79,7 @@ class _MyWidgetState extends State<TodoListView> {
                 ),
               );
             }
+            return null;
           },
           child: ToDoListTile(
             todo: todoList[index],

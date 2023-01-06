@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../constants/colours.dart';
 import '../models/todo_item.dart';
-import './showmodal_listtile.dart';
-import './padded_row_buttons.dart';
 
 class ToDoListTile extends StatelessWidget {
   final TodoItem todo;
