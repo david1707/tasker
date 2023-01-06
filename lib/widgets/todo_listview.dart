@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../constants/colours.dart';
 import '../models/todo_item.dart';
 import '../screens/todo_detail_screen.dart';
 import '../widgets/expanded_button.dart';
@@ -31,7 +32,7 @@ class _MyWidgetState extends State<TodoListView> {
           key: Key(todoList[index].id),
           secondaryBackground: Container(
             alignment: AlignmentDirectional.centerEnd,
-            color: Colors.red,
+            color: Colours.kRedClear,
             child: const Padding(
               padding: EdgeInsets.only(right: 15),
               child: Icon(
@@ -42,7 +43,7 @@ class _MyWidgetState extends State<TodoListView> {
           ),
           background: Container(
             alignment: AlignmentDirectional.centerStart,
-            color: Colors.green,
+            color: Colours.kGreenClear,
             child: const Padding(
               padding: EdgeInsets.only(left: 15),
               child: Icon(
@@ -76,6 +77,17 @@ class _MyWidgetState extends State<TodoListView> {
                           text: 'Delete',
                           function: () {
                             Navigator.of(context).pop(true);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  "'${todoList[index].title}' item removed.",
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                                backgroundColor: Colours.kRedClear,
+                                duration: const Duration(seconds: 3),
+                              ),
+                            );
                             widget.removeItemFromList(index);
                           },
                         ),
