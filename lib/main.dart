@@ -79,7 +79,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _removeItemFromList(int index) {
-    print(index);
     setState(() {
       todoList.removeAt(index);
     });

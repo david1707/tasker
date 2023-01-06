@@ -28,8 +28,7 @@ class _MyWidgetState extends State<TodoListView> {
       itemBuilder: (context, index) {
         return Dismissible(
           key: Key(todoList[index].id),
-          direction: DismissDirection.endToStart,
-          background: Container(
+          secondaryBackground: Container(
             alignment: AlignmentDirectional.centerEnd,
             color: Colors.red,
             child: const Padding(
@@ -40,32 +39,46 @@ class _MyWidgetState extends State<TodoListView> {
               ),
             ),
           ),
-          confirmDismiss: (direction) {
-            return showDialog(
-              context: context,
-              builder: (_) => AlertDialog(
-                title: const Text('Delete todo'),
-                content: const Text('Confirm delete this todo'),
-                actions: [
-                  Row(
-                    children: [
-                      ExpandedButton(
-                        text: 'Close',
-                        function: () => Navigator.of(context).pop(false),
-                      ),
-                      const SizedBox(width: 40),
-                      ExpandedButton(
-                        text: 'Delete',
-                        function: () {
-                          Navigator.of(context).pop(true);
-                          widget.removeItemFromList(index);
-                        },
-                      ),
-                    ],
-                  ),
-                ],
+          background: Container(
+            alignment: AlignmentDirectional.centerEnd,
+            color: Colors.green,
+            child: const Padding(
+              padding: EdgeInsets.only(right: 25),
+              child: Icon(
+                Icons.remove_red_eye,
+                color: Colors.white,
               ),
-            );
+            ),
+          ),
+          confirmDismiss: (direction) async {
+            if (direction == DismissDirection.startToEnd) {
+            } else {
+              return showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  title: const Text('Delete todo'),
+                  content: const Text('Confirm delete this todo'),
+                  actions: [
+                    Row(
+                      children: [
+                        ExpandedButton(
+                          text: 'Close',
+                          function: () => Navigator.of(context).pop(false),
+                        ),
+                        const SizedBox(width: 40),
+                        ExpandedButton(
+                          text: 'Delete',
+                          function: () {
+                            Navigator.of(context).pop(true);
+                            widget.removeItemFromList(index);
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            }
           },
           child: ToDoListTile(
             todo: todoList[index],
