@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasker/widgets/expanded_button.dart';
 
 import '../models/todo_item.dart';
 import 'todo_listtile.dart';
@@ -35,17 +36,21 @@ class _MyWidgetState extends State<TodoListView> {
                   title: const Text('Delete todo'),
                   content: const Text('Confirm delete this todo'),
                   actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(false);
-                      },
-                      child: const Text('Close'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(true);
-                      },
-                      child: const Text('Delete'),
+                    Row(
+                      children: [
+                        ExpandedButton(
+                          text: 'Close',
+                          function: () => Navigator.of(context).pop(false),
+                        ),
+                        const SizedBox(width: 40),
+                        ExpandedButton(
+                          text: 'Delete',
+                          function: () {
+                            Navigator.of(context).pop(true);
+                            widget.confirmDismiss();
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
