@@ -28,27 +28,31 @@ class _MyWidgetState extends State<TodoListView> {
         return Dismissible(
           key: Key(todoList[index].id),
           confirmDismiss: (direction) {
-            return showDialog(
-              context: context,
-              builder: (_) => AlertDialog(
-                title: const Text('Delete todo'),
-                content: const Text('Confirm delete this todo'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(false);
-                    },
-                    child: const Text('Close'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(true);
-                    },
-                    child: const Text('Delete'),
-                  ),
-                ],
-              ),
-            );
+            if (direction == DismissDirection.endToStart) {
+              return showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  title: const Text('Delete todo'),
+                  content: const Text('Confirm delete this todo'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(false);
+                      },
+                      child: const Text('Close'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(true);
+                      },
+                      child: const Text('Delete'),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return Future.value(false);
+            }
           },
           child: ToDoListTile(
             todo: todoList[index],
