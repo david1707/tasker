@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tasker/widgets/expanded_button.dart';
 
 import '../models/todo_item.dart';
-import 'todo_listtile.dart';
+import '../screens/todo_detail_screen.dart';
+import '../widgets/expanded_button.dart';
+import './todo_listtile.dart';
 
 class TodoListView extends StatefulWidget {
   final List<TodoItem> todoList;
@@ -32,7 +33,7 @@ class _MyWidgetState extends State<TodoListView> {
             alignment: AlignmentDirectional.centerEnd,
             color: Colors.red,
             child: const Padding(
-              padding: EdgeInsets.only(right: 25),
+              padding: EdgeInsets.only(right: 15),
               child: Icon(
                 Icons.delete,
                 color: Colors.white,
@@ -40,10 +41,10 @@ class _MyWidgetState extends State<TodoListView> {
             ),
           ),
           background: Container(
-            alignment: AlignmentDirectional.centerEnd,
+            alignment: AlignmentDirectional.centerStart,
             color: Colors.green,
             child: const Padding(
-              padding: EdgeInsets.only(right: 25),
+              padding: EdgeInsets.only(left: 15),
               child: Icon(
                 Icons.remove_red_eye,
                 color: Colors.white,
@@ -52,6 +53,11 @@ class _MyWidgetState extends State<TodoListView> {
           ),
           confirmDismiss: (direction) async {
             if (direction == DismissDirection.startToEnd) {
+              Navigator.pushNamed(
+                context,
+                TodoDetailScreen.routeName,
+                arguments: todoList[index],
+              );
             } else {
               return showDialog(
                 context: context,

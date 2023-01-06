@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       initialRoute: MainScreen.routeName,
       routes: {
         MainScreen.routeName: (ctx) => MainScreen(),
-        TodoDetailScreen.routeName: (ctx) => TodoDetailScreen(),
+        TodoDetailScreen.routeName: (ctx) => const TodoDetailScreen(),
       },
     );
   }
