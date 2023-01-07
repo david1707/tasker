@@ -26,6 +26,19 @@ class TodoItem {
     }
   }
 
+  String get getPriorityText {
+    switch (priorities) {
+      case Priorities.low:
+        return 'Low';
+      case Priorities.medium:
+        return 'Medium';
+      case Priorities.high:
+        return 'High';
+      default:
+        return 'Error';
+    }
+  }
+
   TodoItem({
     required this.id,
     required this.title,
