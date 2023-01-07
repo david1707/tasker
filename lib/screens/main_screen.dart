@@ -19,6 +19,7 @@ class _MainScreenState extends State<MainScreen> {
       id: '01',
       title: 'Test',
       body: 'This is a test!',
+      priorities: Priorities.medium,
       isFinished: false,
     ),
     TodoItem(
@@ -26,30 +27,35 @@ class _MainScreenState extends State<MainScreen> {
       title: 'Another test',
       body:
           'Yep, another test. But the text on this one is longer so we can see how we limit characters being ',
+      priorities: Priorities.low,
       isFinished: false,
     ),
     TodoItem(
       id: '03',
       title: 'Eat all the lunchables',
       body: 'This is a test!',
+      priorities: Priorities.medium,
       isFinished: true,
     ),
     TodoItem(
       id: '04',
       title: 'Yell',
       body: 'This is a test!',
+      priorities: Priorities.low,
       isFinished: true,
     ),
     TodoItem(
       id: '05',
       title: 'Read @dril tweets',
       body: 'This is a test!',
+      priorities: Priorities.high,
       isFinished: false,
     ),
     TodoItem(
       id: '06',
       title: 'Drive thru the Mc Donalds',
       body: 'This is a test!',
+      priorities: Priorities.high,
       isFinished: true,
     ),
   ];

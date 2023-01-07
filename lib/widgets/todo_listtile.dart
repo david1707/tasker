@@ -14,22 +14,36 @@ class ToDoListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        todo.title,
-        style: const TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: 16,
+    return Container(
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Colors.white,
+          Colors.white,
+          Colors.white,
+          Colors.white,
+          Colors.yellow
+        ],
+      )),
+      child: ListTile(
+        title: Text(
+          todo.title,
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
         ),
-      ),
-      subtitle: todo.body.length >= 30
-          ? Text('${todo.body.characters.take(30)} ...')
-          : Text(todo.body),
-      leading: InkWell(
-        onTap: () => toogleFinished(todo.id),
-        child: Icon(
-          todo.isFinished ? Icons.check_box : Icons.check_box_outline_blank,
-          color: Colours.kTeal,
+        subtitle: todo.body.length >= 30
+            ? Text('${todo.body.characters.take(30)} ...')
+            : Text(todo.body),
+        leading: InkWell(
+          onTap: () => toogleFinished(todo.id),
+          child: Icon(
+            todo.isFinished ? Icons.check_box : Icons.check_box_outline_blank,
+            color: Colours.kTeal,
+          ),
         ),
       ),
     );
