@@ -7,7 +7,7 @@ import '../widgets/todo_listview.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = '/';
-  MainScreen({super.key});
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();

@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       color: Colours.kTeal,
       initialRoute: MainScreen.routeName,
       routes: {
-        MainScreen.routeName: (ctx) => MainScreen(),
+        MainScreen.routeName: (ctx) => const MainScreen(),
         TodoDetailScreen.routeName: (ctx) => const TodoDetailScreen(),
       },
     );
@@ -36,6 +36,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return MainScreen();
+    return const MainScreen();
   }
 }
