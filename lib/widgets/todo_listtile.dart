@@ -16,18 +16,19 @@ class ToDoListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Colors.white,
-          Colors.white,
-          Colors.white,
-          Colors.white,
-          Colors.white,
-          todo.getPriorityColour
-        ],
-      )),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Colors.white,
+            Colors.white,
+            Colors.white,
+            Colors.white,
+            Colors.white,
+            todo.getPriorityColour
+          ],
+        ),
+      ),
       child: ListTile(
         title: Text(
           todo.title,

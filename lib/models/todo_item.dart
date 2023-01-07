@@ -22,7 +22,7 @@ class TodoItem {
       case Priorities.high:
         return Colors.red;
       default:
-        return Colors.yellow;
+        return Colors.blueAccent;
     }
   }
 

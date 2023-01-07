@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tasker/models/todo_item.dart';
 
+import 'package:basic_utils/basic_utils.dart' show StringUtils;
+
+import '../models/todo_item.dart';
 import '../constants/colours.dart';
 
 class CustomFAB extends StatefulWidget {
@@ -15,6 +17,7 @@ class CustomFABState extends State<CustomFAB> {
   final _formKey = GlobalKey<FormState>();
   String _title = '';
   String _body = '';
+  Priorities _priorities = Priorities.medium;
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +79,23 @@ class CustomFABState extends State<CustomFAB> {
                           _body = value.toString();
                         },
                       ),
+                      DropdownButtonFormField<Priorities>(
+                        value: _priorities,
+                        items: Priorities.values.map((Priorities priorities) {
+                          return DropdownMenuItem<Priorities>(
+                            value: priorities,
+                            child: Text(
+                              StringUtils.capitalize(
+                                priorities.toString().split('.')[1],
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onSaved: (value) {
+                          _priorities = value!;
+                        },
+                        onChanged: (_) {},
+                      ),
                     ]),
                   )
                 ],
@@ -98,6 +118,7 @@ class CustomFABState extends State<CustomFAB> {
                           id: DateTime.now().toString(),
                           title: _title,
                           body: _body,
+                          priorities: _priorities,
                           isFinished: false);
                       widget.addNewToDo(todo);
                       Navigator.of(context).pop();
