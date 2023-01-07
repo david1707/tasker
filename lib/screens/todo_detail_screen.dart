@@ -29,6 +29,11 @@ class TodoDetailScreen extends StatelessWidget {
             todo.body,
             style: const TextStyle(fontSize: 20),
           ),
+          const SizedBox(height: 30),
+          Text(
+            'Priority: ${todo.getPriorityText}',
+            style: const TextStyle(fontSize: 20),
+          ),
         ]),
       ),
     );

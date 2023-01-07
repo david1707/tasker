@@ -20,10 +20,11 @@ samples, guidance on mobile development, and a full API reference.
 - ~~Create ToDo~~
 - Modify ToDos
 - Provider.of<TodosProvider>
-- Set priority to each ToDo
+- ~~Set priority to each ToDo~~
 - Set finishing date on each ToDo (Maybe with a calendar to visualize all tasks?)
 - Alert the user with ToDos that should be done today.
 - Reorder tasks by name, creation data, modification data, priority, etc
+- Filter tasks by name, creation data, modification data, priority, etc
 - Add image to each task
 - Basic UI
 - Improve UI (Animations, better design, etc)
