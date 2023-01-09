@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:basic_utils/basic_utils.dart' show StringUtils;
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 
 import '../models/todo_item.dart';
 import '../constants/colours.dart';
@@ -24,17 +27,28 @@ class CustomFABState extends State<CustomFAB> {
   File? _image;
 
   Future _getImage() async {
-    final imageSelected =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    try {
+      final imageSelected =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    if (imageSelected != null) {
-      final imageTemporary = File(imageSelected.path);
+      if (imageSelected != null) {
+        final imageTemporary = File(imageSelected.path);
+        await _saveImageToApp(imageSelected.path);
 
-      setState(() {
-        _image = imageTemporary;
-      });
+        setState(() {
+          _image = imageTemporary;
+        });
+      }
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
     }
-    return;
+  }
+
+  Future<File> _saveImageToApp(String imagePath) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final fileName = basename(imagePath);
+    final image = File("${directory.path}/$fileName");
+    return File(imagePath).copy(image.path);
   }
 
   @override
@@ -44,6 +58,7 @@ class CustomFABState extends State<CustomFAB> {
       child: const Icon(Icons.add),
       onPressed: () {
         showDialog(
+          //ToDo Add a StatefulBuilder to the AlertDialog so it may be refreshed on setState (when we pick a new image) https://stackoverflow.com/questions/51962272/how-to-refresh-an-alertdialog-in-flutter
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
@@ -98,9 +113,18 @@ class CustomFABState extends State<CustomFAB> {
                             _body = value.toString();
                           },
                         ),
-                        if (_image != null) Image.file(_image!),
+                        const SizedBox(height: 20),
+                        if (_image != null)
+                          Image.file(
+                            _image!,
+                            height: 250,
+                            fit: BoxFit.fill,
+                          ),
                         ElevatedButton(
                           onPressed: _getImage,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colours.kTeal,
+                          ),
                           child: const Text(
                             'Pick an image',
                           ),
