@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:basic_utils/basic_utils.dart' show StringUtils;
+import 'package:image_picker/image_picker.dart';
 
 import '../models/todo_item.dart';
 import '../constants/colours.dart';
@@ -18,6 +21,21 @@ class CustomFABState extends State<CustomFAB> {
   String _title = '';
   String _body = '';
   Priorities _priorities = Priorities.medium;
+  File? _image;
+
+  Future _getImage() async {
+    final imageSelected =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (imageSelected != null) {
+      final imageTemporary = File(imageSelected.path);
+
+      setState(() {
+        _image = imageTemporary;
+      });
+    }
+    return;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,75 +48,84 @@ class CustomFABState extends State<CustomFAB> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: const Text('Create a new ToDo'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Form(
-                    key: _formKey,
-                    child: Column(children: [
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Title',
-                          labelStyle: TextStyle(
-                            color: Colours.kTeal,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        validator: ((value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please, enter a title';
-                          } else {
-                            return null;
-                          }
-                        }),
-                        onSaved: (value) {
-                          _title = value.toString();
-                        },
-                      ),
-                      TextFormField(
-                        keyboardType: TextInputType.multiline,
-                        minLines: 1,
-                        maxLines: 3,
-                        decoration: InputDecoration(
-                          labelText: 'Body',
-                          labelStyle: TextStyle(
-                            color: Colours.kTeal,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        validator: ((value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please, enter a body';
-                          } else if (value.length > 100) {
-                            return 'The body is too long';
-                          } else {
-                            return null;
-                          }
-                        }),
-                        onSaved: (value) {
-                          _body = value.toString();
-                        },
-                      ),
-                      DropdownButtonFormField<Priorities>(
-                        value: _priorities,
-                        items: Priorities.values.map((Priorities priorities) {
-                          return DropdownMenuItem<Priorities>(
-                            value: priorities,
-                            child: Text(
-                              StringUtils.capitalize(
-                                priorities.toString().split('.')[1],
-                              ),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Form(
+                      key: _formKey,
+                      child: Column(children: [
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Title',
+                            labelStyle: TextStyle(
+                              color: Colours.kTeal,
+                              fontWeight: FontWeight.w500,
                             ),
-                          );
-                        }).toList(),
-                        onSaved: (value) {
-                          _priorities = value!;
-                        },
-                        onChanged: (_) {},
-                      ),
-                    ]),
-                  )
-                ],
+                          ),
+                          validator: ((value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please, enter a title';
+                            } else {
+                              return null;
+                            }
+                          }),
+                          onSaved: (value) {
+                            _title = value.toString();
+                          },
+                        ),
+                        TextFormField(
+                          keyboardType: TextInputType.multiline,
+                          minLines: 1,
+                          maxLines: 3,
+                          decoration: InputDecoration(
+                            labelText: 'Body',
+                            labelStyle: TextStyle(
+                              color: Colours.kTeal,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          validator: ((value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please, enter a body';
+                            } else if (value.length > 100) {
+                              return 'The body is too long';
+                            } else {
+                              return null;
+                            }
+                          }),
+                          onSaved: (value) {
+                            _body = value.toString();
+                          },
+                        ),
+                        if (_image != null) Image.file(_image!),
+                        ElevatedButton(
+                          onPressed: _getImage,
+                          child: const Text(
+                            'Pick an image',
+                          ),
+                        ),
+                        DropdownButtonFormField<Priorities>(
+                          value: _priorities,
+                          items: Priorities.values.map((Priorities priorities) {
+                            return DropdownMenuItem<Priorities>(
+                              value: priorities,
+                              child: Text(
+                                StringUtils.capitalize(
+                                  priorities.toString().split('.')[1],
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                          onSaved: (value) {
+                            _priorities = value!;
+                          },
+                          onChanged: (_) {},
+                        ),
+                      ]),
+                    )
+                  ],
+                ),
               ),
               actions: [
                 ElevatedButton(
