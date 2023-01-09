@@ -26,24 +26,6 @@ class CustomFABState extends State<CustomFAB> {
   Priorities _priorities = Priorities.medium;
   File? _image;
 
-  Future _getImage() async {
-    try {
-      final imageSelected =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
-
-      if (imageSelected != null) {
-        final imageTemporary = File(imageSelected.path);
-        await _saveImageToApp(imageSelected.path);
-
-        setState(() {
-          _image = imageTemporary;
-        });
-      }
-    } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
-    }
-  }
-
   Future<File> _saveImageToApp(String imagePath) async {
     final directory = await getApplicationDocumentsDirectory();
     final fileName = basename(imagePath);
@@ -54,138 +36,158 @@ class CustomFABState extends State<CustomFAB> {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      backgroundColor: Colours.kTeal,
-      child: const Icon(Icons.add),
-      onPressed: () {
-        showDialog(
-          //ToDo Add a StatefulBuilder to the AlertDialog so it may be refreshed on setState (when we pick a new image) https://stackoverflow.com/questions/51962272/how-to-refresh-an-alertdialog-in-flutter
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Create a new ToDo'),
-              content: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Form(
-                      key: _formKey,
-                      child: Column(children: [
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Title',
-                            labelStyle: TextStyle(
-                              color: Colours.kTeal,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          validator: ((value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please, enter a title';
-                            } else {
-                              return null;
-                            }
-                          }),
-                          onSaved: (value) {
-                            _title = value.toString();
-                          },
-                        ),
-                        TextFormField(
-                          keyboardType: TextInputType.multiline,
-                          minLines: 1,
-                          maxLines: 3,
-                          decoration: InputDecoration(
-                            labelText: 'Body',
-                            labelStyle: TextStyle(
-                              color: Colours.kTeal,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          validator: ((value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please, enter a body';
-                            } else if (value.length > 100) {
-                              return 'The body is too long';
-                            } else {
-                              return null;
-                            }
-                          }),
-                          onSaved: (value) {
-                            _body = value.toString();
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        if (_image != null)
-                          Image.file(
-                            _image!,
-                            height: 250,
-                            fit: BoxFit.fill,
-                          ),
-                        ElevatedButton(
-                          onPressed: _getImage,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colours.kTeal,
-                          ),
-                          child: const Text(
-                            'Pick an image',
-                          ),
-                        ),
-                        DropdownButtonFormField<Priorities>(
-                          value: _priorities,
-                          items: Priorities.values.map((Priorities priorities) {
-                            return DropdownMenuItem<Priorities>(
-                              value: priorities,
-                              child: Text(
-                                StringUtils.capitalize(
-                                  priorities.toString().split('.')[1],
+        backgroundColor: Colours.kTeal,
+        child: const Icon(Icons.add),
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return StatefulBuilder(
+                builder: (context, setState) {
+                  return AlertDialog(
+                    title: const Text('Create a new ToDo'),
+                    content: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Form(
+                            key: _formKey,
+                            child: Column(children: [
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Title',
+                                  labelStyle: TextStyle(
+                                    color: Colours.kTeal,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                validator: ((value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please, enter a title';
+                                  } else {
+                                    return null;
+                                  }
+                                }),
+                                onSaved: (value) {
+                                  _title = value.toString();
+                                },
+                              ),
+                              TextFormField(
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,
+                                maxLines: 3,
+                                decoration: InputDecoration(
+                                  labelText: 'Body',
+                                  labelStyle: TextStyle(
+                                    color: Colours.kTeal,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                validator: ((value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please, enter a body';
+                                  } else if (value.length > 100) {
+                                    return 'The body is too long';
+                                  } else {
+                                    return null;
+                                  }
+                                }),
+                                onSaved: (value) {
+                                  _body = value.toString();
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              if (_image != null)
+                                Image.file(
+                                  _image!,
+                                  height: 250,
+                                  fit: BoxFit.fill,
+                                ),
+                              ElevatedButton(
+                                onPressed: () async {
+                                  try {
+                                    final imageSelected = await ImagePicker()
+                                        .pickImage(source: ImageSource.gallery);
+
+                                    if (imageSelected != null) {
+                                      final imageTemporary =
+                                          File(imageSelected.path);
+                                      await _saveImageToApp(imageSelected.path);
+
+                                      setState(() {
+                                        _image = imageTemporary;
+                                      });
+                                    }
+                                  } on PlatformException catch (e) {
+                                    print('Failed to pick image: $e');
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colours.kTeal,
+                                ),
+                                child: const Text(
+                                  'Pick an image',
                                 ),
                               ),
-                            );
-                          }).toList(),
-                          onSaved: (value) {
-                            _priorities = value!;
-                          },
-                          onChanged: (_) {},
+                              DropdownButtonFormField<Priorities>(
+                                value: _priorities,
+                                items: Priorities.values
+                                    .map((Priorities priorities) {
+                                  return DropdownMenuItem<Priorities>(
+                                    value: priorities,
+                                    child: Text(
+                                      StringUtils.capitalize(
+                                        priorities.toString().split('.')[1],
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                                onSaved: (value) {
+                                  _priorities = value!;
+                                },
+                                onChanged: (_) {},
+                              ),
+                            ]),
+                          )
+                        ],
+                      ),
+                    ),
+                    actions: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colours.kTeal,
                         ),
-                      ]),
-                    )
-                  ],
-                ),
-              ),
-              actions: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colours.kTeal,
-                  ),
-                  child: const Text('Close'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState?.save();
-                      TodoItem todo = TodoItem(
-                          id: DateTime.now().toString(),
-                          title: _title,
-                          body: _body,
-                          priorities: _priorities,
-                          isFinished: false);
-                      widget.addNewToDo(todo);
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colours.kTeal,
-                  ),
-                  child: const Text('Create'),
-                ),
-              ],
-              actionsAlignment: MainAxisAlignment.spaceAround,
-            );
-          },
-        );
-      },
-    );
+                        child: const Text('Close'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState?.save();
+                            TodoItem todo = TodoItem(
+                                id: DateTime.now().toString(),
+                                title: _title,
+                                body: _body,
+                                priorities: _priorities,
+                                isFinished: false);
+                            widget.addNewToDo(todo);
+                            Navigator.of(context).pop();
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colours.kTeal,
+                        ),
+                        child: const Text('Create'),
+                      ),
+                    ],
+                    actionsAlignment: MainAxisAlignment.spaceAround,
+                  );
+                },
+              );
+            },
+          );
+        });
   }
 }
